@@ -2,15 +2,13 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// package textTemplate_test
 package textTemplate_test
 
 import (
 	"log"
 	"os"
 	"strings"
-
-	template "github.com/pschlump/textTemplate"
+	"text/template"
 )
 
 func ExampleTemplate() {
