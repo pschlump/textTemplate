@@ -671,7 +671,7 @@ func evalArgs(args []interface{}) string {
 	}
 	if !ok {
 		for i, arg := range args {
-			a, ok := printableValue(reflect.ValueOf(arg))
+			a, ok, _ := printableValue(reflect.ValueOf(arg)) // PJS
 			if ok {
 				args[i] = a
 			} // else let fmt do its thing

@@ -18,8 +18,10 @@ func (t *Template) AvailableTemplates() (rv []string) {
 
 // PJS
 var no_value = "<no value>"
+var reportMissing = true
 
 // PJS
-func SetNoValue(s string) {
+func SetNoValue(s string, r bool) {
 	no_value = s
+	reportMissing = r
 }

@@ -928,7 +928,12 @@ func indirectInterface(v reflect.Value) reflect.Value {
 // the template.
 func (s *state) printValue(n parse.Node, v reflect.Value) {
 	s.at(n)
-	iface, ok := printableValue(v)
+	iface, ok, missing := printableValue(v) // PJS
+	if missing {                            // PJS
+		if reportMissing { // PJS
+			s.errorf("missing value to print %s of type %s", n, v.Type()) // PJS
+		} // PJS
+	} // PJS
 	if !ok {
 		s.errorf("can't print %s of type %s", n, v.Type())
 	}
@@ -940,12 +945,12 @@ func (s *state) printValue(n parse.Node, v reflect.Value) {
 
 // printableValue returns the, possibly indirected, interface value inside v that
 // is best for a call to formatted printer.
-func printableValue(v reflect.Value) (interface{}, bool) {
+func printableValue(v reflect.Value) (interface{}, bool, bool) { // PJS
 	if v.Kind() == reflect.Ptr {
 		v, _ = indirect(v) // fmt.Fprint handles nil.
 	}
 	if !v.IsValid() {
-		return no_value, true // PJS mod - use global
+		return no_value, true, true // PJS mod - use global
 	}
 
 	if !v.Type().Implements(errorType) && !v.Type().Implements(fmtStringerType) {
@@ -954,9 +959,9 @@ func printableValue(v reflect.Value) (interface{}, bool) {
 		} else {
 			switch v.Kind() {
 			case reflect.Chan, reflect.Func:
-				return nil, false
+				return nil, false, false
 			}
 		}
 	}
-	return v.Interface(), true
+	return v.Interface(), true, false
 }
