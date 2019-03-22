@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"os"
 	"reflect"
 	"runtime"
 	"strings"
@@ -931,7 +932,10 @@ func (s *state) printValue(n parse.Node, v reflect.Value) {
 	iface, ok, missing := printableValue(v) // PJS
 	if missing {                            // PJS
 		if reportMissing { // PJS
-			s.errorf("missing value to print %s of type %s", n, v.Type()) // PJS
+			// s.errorf("missing value to print %s of type %s", n, v.Type()) // PJS
+			// s.errorf("missing value to print %s", n)                                    // PJS
+			// fmt.Fprintf(os.Stderr, "missing value to print %s of type %s", n, v.Type()) // PJS
+			fmt.Fprintf(os.Stderr, "missing value to print %s of type %s", n) // PJS
 		} // PJS
 	} // PJS
 	if !ok {
