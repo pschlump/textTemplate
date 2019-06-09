@@ -13,6 +13,7 @@ import (
 	"runtime"
 	"strings"
 
+	"github.com/pschlump/godebug"
 	"github.com/pschlump/textTemplate/fmtsort"
 	"github.com/pschlump/textTemplate/parse"
 )
@@ -932,14 +933,12 @@ func (s *state) printValue(n parse.Node, v reflect.Value) {
 	iface, ok, missing := printableValue(v) // PJS
 	if missing {                            // PJS
 		if reportMissing { // PJS
-			// s.errorf("missing value to print %s of type %s", n, v.Type()) // PJS
-			// s.errorf("missing value to print %s", n)                                    // PJS
-			// fmt.Fprintf(os.Stderr, "missing value to print %s of type %s", n, v.Type()) // PJS
-			fmt.Fprintf(os.Stderr, "missing value to print %s of type %s", n) // PJS
+			// s.errorf("missing value to print %s of type %s", n, v.Type()) // PJS -- v.Type causes panic - so boom.
+			fmt.Fprintf(os.Stderr, "Missing value to print ->%s<- from %s\n", n, godebug.LF(-2))
 		} // PJS
 	} // PJS
 	if !ok {
-		s.errorf("can't print %s of type %s", n, v.Type())
+		s.errorf("Can't print ->%s<- of type %s from %s\n", n, v.Type(), godebug.LF(-1)) // PJS
 	}
 	_, err := fmt.Fprint(s.wr, iface)
 	if err != nil {
