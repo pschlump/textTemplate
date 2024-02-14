@@ -8,7 +8,8 @@ import (
 	"log"
 	"os"
 	"strings"
-	"text/template"
+
+	template "github.com/pschlump/textTemplate"
 )
 
 func ExampleTemplate() {
