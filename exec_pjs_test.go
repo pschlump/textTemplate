@@ -38,11 +38,13 @@ func TestSetEmptyFunc(t *testing.T) {
 	// emptyDataValue string // PJS value to use when missing value is found
 	// errOnEmpty     bool   // PJS if true(default) reports errors on missing values
 	// errOnEmptyFunc func(def string, pos parse.Pos, lf string) // PJS if not null, then on error call this function		-- Call funciton with name of template, lf is line/file in source called from
-	data := make(map[string]string)
-	var buf strings.Builder
+
 	for _, tt := range tmpl.AvailableTemplates() {
 		tmpl.Lookup(tt).SetEmpty("bob", true).SetEmptyFunc(cb)
 	}
+
+	data := make(map[string]string)
+	var buf strings.Builder
 	err := tmpl.ExecuteTemplate(&buf, "sub", data)
 	if !called {
 		t.Errorf("Falied to call callback func\n")
