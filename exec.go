@@ -1042,8 +1042,19 @@ func (s *state) printValue(n parse.Node, v reflect.Value) {
 	// emptyDataValue string // value to use when missing value is found
 	// errOnEmpty     bool   // if true(default) reports errors on missing values
 	if !found { // PJS
+		lf := godebug.LF(-2) // PJS
+		if db1 {
+			fmt.Printf("Yep : %s\n", lf) // PJS -- debug
+		}
 		if s.tmpl.errOnEmpty { // PJS
-			fmt.Fprintf(os.Stderr, "Missing value to print ->%s<- from %s\n", n, godebug.LF(-2)) // PJS
+			fmt.Fprintf(os.Stderr, "Missing value to print ->%s<- from %s\n", n, lf) // PJS
+		} // PJS
+		if s.tmpl.errOnEmptyFunc != nil { // PJS
+			if db1 {
+				fmt.Fprintf(os.Stderr, "Func Called With ->%s<- pos %d from %s\n", n.String(), n.Position(), lf) // PJS -- debug
+			}
+			fx := s.tmpl.errOnEmptyFunc      // PJS
+			fx(n.String(), n.Position(), lf) // PJS
 		} // PJS
 	} // PJS
 	if !ok {
@@ -1057,13 +1068,16 @@ func (s *state) printValue(n parse.Node, v reflect.Value) {
 
 // printableValue returns the, possibly indirected, interface value inside v that
 // is best for a call to formatted printer.
-func printableValue(v reflect.Value, nv string) (any, bool, bool) {
+func printableValue(v reflect.Value, nv string) (any, bool, bool) { // PJS modified
 	if v.Kind() == reflect.Pointer {
 		v, _ = indirect(v) // fmt.Fprint handles nil.
 	}
 	if !v.IsValid() {
 		// return "<no value>", true
-		return nv, true, false
+		if db1 {
+			fmt.Printf("Returing [%s] for no value, at:%s\n", nv, godebug.LF())
+		}
+		return nv, true, false // PJS modified
 	}
 
 	if !v.Type().Implements(errorType) && !v.Type().Implements(fmtStringerType) {
@@ -1072,9 +1086,9 @@ func printableValue(v reflect.Value, nv string) (any, bool, bool) {
 		} else {
 			switch v.Kind() {
 			case reflect.Chan, reflect.Func:
-				return nil, false, true
+				return nil, false, true // PJS Modified
 			}
 		}
 	}
-	return v.Interface(), true, true
+	return v.Interface(), true, true // PJS Modified
 }

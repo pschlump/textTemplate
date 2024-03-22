@@ -1,0 +1,12 @@
+
+Must add test for fucntion call back.
+
+
+exec.go:1043:	// errOnEmpty     bool   // if true(default) reports errors on missing values
+exec.go:1045:		if s.tmpl.errOnEmpty { // PJS
+template.go:39:	errOnEmpty     bool   // PJS if true(default) reports errors on missing values
+template.go:41:	errOnEmptyFunc func(name, lf string) // PJS if not null, then on error call this function		-- Call funciton with name of template, lf is line/file in source called from
+template.go:49:		errOnEmpty:     false,        // PJS new
+template.go:75:		errOnEmpty:     false,        // PJS new
+template.go:134:		errOnEmpty:     t.errOnEmpty,     // PJS
+template.go:178:	t.errOnEmpty = rpt

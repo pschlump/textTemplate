@@ -35,8 +35,10 @@ type Template struct {
 	rightDelim string
 
 	// PJS Additions, 2024, Feb, 14
-	emptyDataValue string // value to use when missing value is found
-	errOnEmpty     bool   // if true(default) reports errors on missing values
+	emptyDataValue string // PJS value to use when missing value is found
+	errOnEmpty     bool   // PJS if true(default) reports errors on missing values
+	// PJS Additions, 2024, Mar, 22
+	errOnEmptyFunc func(def string, pos parse.Pos, lf string) // PJS if not null, then on error call this function		-- Call funciton with name of template, lf is line/file in source called from
 }
 
 // New allocates a new, undefined template with the given name.
@@ -45,6 +47,7 @@ func New(name string) *Template {
 		name:           name,
 		emptyDataValue: "<no value>", // PJS new
 		errOnEmpty:     false,        // PJS new
+		errOnEmptyFunc: nil,          // PJS new
 	}
 	t.init()
 	return t
@@ -71,6 +74,7 @@ func (t *Template) New(name string) *Template {
 		rightDelim:     t.rightDelim,
 		emptyDataValue: "<no value>", // PJS new
 		errOnEmpty:     false,        // PJS new
+		errOnEmptyFunc: nil,          // PJS new
 	}
 	return nt
 }
@@ -130,6 +134,7 @@ func (t *Template) copy(c *common) *Template {
 		rightDelim:     t.rightDelim,
 		emptyDataValue: t.emptyDataValue, // PJS
 		errOnEmpty:     t.errOnEmpty,     // PJS
+		errOnEmptyFunc: t.errOnEmptyFunc, // PJS
 	}
 }
 
@@ -174,6 +179,14 @@ func (t *Template) Templates() []*Template {
 func (t *Template) SetEmpty(ev string, rpt bool) *Template {
 	t.emptyDataValue = ev
 	t.errOnEmpty = rpt
+	return t
+}
+
+// SetEmptyFunc allows you to set the behavior when an empty(missing) data value is found.
+// The function will be called.
+// PJS - added - Fri Mar 22 06:50:08 MDT 2024
+func (t *Template) SetEmptyFunc(fx func(def string, loc parse.Pos, lf string)) *Template {
+	t.errOnEmptyFunc = fx
 	return t
 }
 
