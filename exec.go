@@ -13,7 +13,8 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/pschlump/godebug"
+	// "github.com/pschlump/godebug"
+	godebug "github.com/pschlump/dbgo"
 	fmtsort "github.com/pschlump/textTemplate/fmtsort"
 	parse "github.com/pschlump/textTemplate/parse"
 )
