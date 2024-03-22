@@ -72,9 +72,12 @@ func (t *Template) New(name string) *Template {
 		common:         t.common,
 		leftDelim:      t.leftDelim,
 		rightDelim:     t.rightDelim,
-		emptyDataValue: "<no value>", // PJS new
-		errOnEmpty:     false,        // PJS new
-		errOnEmptyFunc: nil,          // PJS new
+		emptyDataValue: t.emptyDataValue, // PJS new - Very new.
+		errOnEmpty:     t.errOnEmpty,     // PJS new - Very new.
+		errOnEmptyFunc: t.errOnEmptyFunc, // PJS new - Very new.
+		//emptyDataValue: "<no value>", // PJS new
+		//errOnEmpty:     false,        // PJS new
+		//errOnEmptyFunc: nil,          // PJS new
 	}
 	return nt
 }

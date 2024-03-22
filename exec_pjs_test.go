@@ -39,9 +39,9 @@ func TestSetEmptyFunc(t *testing.T) {
 	// errOnEmpty     bool   // PJS if true(default) reports errors on missing values
 	// errOnEmptyFunc func(def string, pos parse.Pos, lf string) // PJS if not null, then on error call this function		-- Call funciton with name of template, lf is line/file in source called from
 
-	for _, tt := range tmpl.AvailableTemplates() {
-		tmpl.Lookup(tt).SetEmpty("bob", true).SetEmptyFunc(cb)
-	}
+	//	for _, tt := range tmpl.AvailableTemplates() {
+	//		tmpl.Lookup(tt).SetEmpty("bob", true).SetEmptyFunc(cb)
+	//	}
 
 	data := make(map[string]string)
 	var buf strings.Builder
