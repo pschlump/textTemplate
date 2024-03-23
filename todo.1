@@ -2,6 +2,20 @@
 Must add test for fucntion call back.
 
 
+	called := false
+	cb := func(def string, loc parse.Pos, lf string) {
+		if checkSyntax {
+			called = true
+			fmt.Printf("Invalid Value Used: %s %d %s\n", def, loc, lf)
+		}
+	}
+	// t, err := template.New("simple-tempalte").Delims("-<", ">-").SetEmpty("", true).Funcs(rtFuncMap).ParseFiles(TemplateFn) // Set Template Markers
+	t, err := template.New("simple-tempalte").SetEmpty("", true).SetEmptyFunc(cb).Funcs(rtFuncMap).ParseFiles(TemplateFn) // Set Template Markers
+
+
+-- Change function to return "string" - use that for the "value".
+	-- Pass in the "template" data.
+
 exec.go:1043:	// errOnEmpty     bool   // if true(default) reports errors on missing values
 exec.go:1045:		if s.tmpl.errOnEmpty { // PJS
 template.go:39:	errOnEmpty     bool   // PJS if true(default) reports errors on missing values
