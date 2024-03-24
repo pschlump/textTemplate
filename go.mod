@@ -12,3 +12,5 @@ require (
 	github.com/pschlump/json v1.12.1 // indirect
 	golang.org/x/sys v0.18.0 // indirect
 )
+
+// fixed
