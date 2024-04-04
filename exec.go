@@ -13,8 +13,7 @@ import (
 	"runtime"
 	"strings"
 
-	// "github.com/pschlump/godebug"
-	godebug "github.com/pschlump/dbgo"
+	"github.com/pschlump/dbgo"
 	fmtsort "github.com/pschlump/textTemplate/fmtsort"
 	parse "github.com/pschlump/textTemplate/parse"
 )
@@ -1043,7 +1042,7 @@ func (s *state) printValue(n parse.Node, v reflect.Value) {
 	// emptyDataValue string // value to use when missing value is found
 	// errOnEmpty     bool   // if true(default) reports errors on missing values
 	if !found { // PJS
-		lf := godebug.LF(-2) // PJS
+		lf := dbgo.LF(-2) // PJS
 		if db1 {
 			fmt.Printf("Yep : %s\n", lf) // PJS -- debug
 		}
@@ -1076,7 +1075,7 @@ func printableValue(v reflect.Value, nv string) (any, bool, bool) { // PJS modif
 	if !v.IsValid() {
 		// return "<no value>", true
 		if db1 {
-			fmt.Printf("Returing [%s] for no value, at:%s\n", nv, godebug.LF())
+			fmt.Printf("Returing [%s] for no value, at:%s\n", nv, dbgo.LF())
 		}
 		return nv, true, false // PJS modified
 	}
